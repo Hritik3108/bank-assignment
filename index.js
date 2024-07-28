@@ -3,6 +3,7 @@ const cors=require('cors');
 const mongoose=require('mongoose');
 const dotenv = require('dotenv').config({path:'./process.env'});
 const path = require('path');
+const {fileURLToPath} = require('url');
 
 const app = express()
 
@@ -12,6 +13,10 @@ app.use(cors({
 }))
 // app.use(express.static('images'))
 // app.use(express.static('client'))
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(express.static(path.join(__dirname,'./client/dist')))
 app.use(express.static(path.join(__dirname,'./images')))
 

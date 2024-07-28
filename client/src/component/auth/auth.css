@@ -1,0 +1,51 @@
+/* Auth form */
+#logo-icon{
+    font-size: 100px;
+    color: white;
+}
+
+.logo-text{
+    color: white;
+}
+
+.form-col{
+    background-color: white;
+    padding:1%;
+}
+
+.auth{
+    background-color: rgb(247, 242, 242);
+}
+
+.logo-col{
+    height: 100vh;
+    background-color: rgb(0, 170, 255);
+}
+
+.auth-container{
+    width: 100vh;
+    height: 500px;
+}
+
+.profile-picture-icon{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 10vh;
+    width: 11vh;
+    height: 11vh;
+    padding: 10%;
+    color: gainsboro;
+    border: 3px solid gray;
+    border-radius: 100%;
+    background-color: white;
+    cursor: pointer;
+}
+
+.profile-img{
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 100%;
+    width: 14vh;
+    height: 14vh;
+    object-fit: cover;
+}

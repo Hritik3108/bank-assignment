@@ -1,46 +1,42 @@
-const express=require('express');
-const cors=require('cors');
-const mongoose=require('mongoose');
-const dotenv = require('dotenv').config({path:'./process.env'});
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv').config({ path: './.env' });
 const path = require('path');
-const {fileURLToPath} = require('url');
 
-const app = express()
+const app = express();
 
-app.use(express.json())
+app.use(express.json());
 app.use(cors({
-    origin:'http://localhost:5173'
-}))
-// app.use(express.static('images'))
-// app.use(express.static('client'))
+    origin: 'http://localhost:5173'
+}));
 
-const __fn = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__fn);
+// Static file serving
+app.use(express.static(path.join(__dirname, './client/dist')));
+app.use(express.static(path.join(__dirname, './images')));
 
-app.use(express.static(path.join(__dirname,'./client/dist')))
-app.use(express.static(path.join(__dirname,'./images')))
-
-app.listen(5100,()=>{
-    console.log('server started')
-})
-
-mongoose.connect(process.env.DATABASE);
-
-const db=mongoose.connection;
-db.on('open',()=>{
-    console.log('Connection to database successful');
-});
-db.on('error',()=>{
-    console.log('Connection with database failed');
+app.listen(5100, () => {
+    console.log('Server started on port 5100');
 });
 
-const authRoute = require('./routes/auth.routes') 
-app.use(authRoute)
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Connection to database successful'))
+    .catch(err => console.error('Connection with database failed:', err));
 
-const customerRoute = require('./routes/user.routes') 
-app.use(customerRoute)
+const db = mongoose.connection;
+db.on('error', (err) => {
+    console.error('Database connection error:', err);
+});
 
-const bankerRoute = require('./routes/banker.routes') 
-app.use(bankerRoute)
+// Route handling
+const authRoute = require('./routes/auth.routes');
+app.use(authRoute);
 
-app.get('*',(req,res)=>res.sendFile(path.join(__dirname,'./client/dist/index.html')))
+const customerRoute = require('./routes/user.routes');
+app.use(customerRoute);
+
+const bankerRoute = require('./routes/banker.routes');
+app.use(bankerRoute);
+
+// Serve the index.html for all other routes to support client-side routing
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, './client/dist/index.html')));

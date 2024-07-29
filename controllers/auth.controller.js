@@ -4,16 +4,16 @@ const bcrypt = require('bcryptjs');
 
 exports.login = async (req, res) => {
     const { email, password } = req.body;
-    console.log('login init')
+    // console.log('login init')
     try {
         const user = await User.findOne({ email:email });
         let isValidPassword
-        console.log('login user',user,'password',password)
+        // console.log('login user',user,'password',password)
 
         if(user){
             isValidPassword = bcrypt.compareSync(password,user.password);
         }
-        console.log('isvalid',isValidPassword)
+        // console.log('isvalid',isValidPassword)
         if (!user || !isValidPassword) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }

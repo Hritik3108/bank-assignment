@@ -3,12 +3,12 @@ const path = require('path');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        // console.log('file found'); 
+        console.log('file found'); 
         cb(null, '../server/images');
         },
     filename: (req, file, cb) => {
         cb(null, file.fieldname+'_'+Date.now()+path.extname(file.originalname))
-        // console.log('generated file',file)
+        console.log('generated file',file)
     },
 });
 
